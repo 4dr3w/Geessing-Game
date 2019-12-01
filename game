@@ -1,0 +1,70 @@
+public class Game {
+    int number;
+    boolean[] guesses;
+    boolean win;
+    
+    public Game(){
+        win = false;
+        guesses = new boolean[101];
+        for(int i = 0; i < 101; i++){
+            guesses[i] = false;
+        }
+        generateNumber();
+    }
+    
+    public boolean isWon(){
+        return win;
+    }
+    
+    public void generateNumber(){
+        Random r = new Random();
+        this.number = r.nextInt(10);
+    }
+    
+    public boolean alreadyGuessed(int guess){
+        if(guesses[guess]){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean correctAnswer(int guess){
+        if(guess == number){
+            win = true;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean guessTooSmall(int guess){
+        guesses[guess] = true;
+        if(guess < number){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean checkGuess(int guess){
+        // Check if that was guessed already
+        if(alreadyGuessed(guess)){
+            System.out.println("You already guessed that one, try again");
+            return false;
+        }
+        // If it was not guessed already, check the guess
+        if(correctAnswer(guess)){
+            System.out.println("Nice job, you got it");
+            return true;
+        } else if(guessTooSmall(guess)){
+            System.out.println("Guess is too small");
+            return false;
+        } else{
+            System.out.println("Nope, too high");
+            guesses[guess] = true;
+            return false;
+        }
+    }
+    
+    public int getNumber(){
+        return number;
+    }
+}
